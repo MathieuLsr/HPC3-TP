@@ -1,47 +1,32 @@
 #include <stdio.h>
-#include <omp.h>
+#include <omp. h>
+
+void loop(int num_thread) {
+    omp_set_num_threads(num_thread) ;
+    printf ("\nAvec %d tâches:\n", num_thread) ; 
+    #pragma omp parallel for
+    
+    for(int i = 1; i <= 50; i++) {
+        int tid = omp get thread num();
+        printf ("Tâche %d: %d\n", tid,i);
+    }
+}
+
+
 
 int main() {
-    int i;
+    int i, num_thread;
+
+    printf ("Boucle avec une seule tâche:\n");
+    for(i = 1; i < 50; i++) printf ("%d\n", i) ;
     
-    // Comptage en utilisant une simple boucle
-    printf("Comptage avec une seule tâche:\n");
-    for(i = 1; i <= 50; i++) {
-        printf("%d\n", i);
-    }
+    num_thread = 2 ;
+    loop(num_thread) ;
 
-    // Comptage en utilisant OpenMP avec 2 tâches
-    printf("\nComptage avec 2 tâches:\n");
-    #pragma omp parallel num_threads(2)
-    {
-        int j;
-        int tid = omp_get_thread_num();
-        for(j = 1; j <= 25; j++) {
-            printf("Tâche %d: %d\n", tid, (j + tid*25));
-        }
-    }
-
-    // Comptage en utilisant OpenMP avec 3 tâches
-    printf("\nComptage avec 3 tâches:\n");
-    #pragma omp parallel num_threads(3)
-    {
-        int k;
-        int tid = omp_get_thread_num();
-        for(k = 1; k <= 17; k++) {
-            printf("Tâche %d: %d\n", tid, (k + tid*17));
-        }
-    }
-
-    // Comptage en utilisant OpenMP avec 4 tâches
-    printf("\nComptage avec 4 tâches:\n");
-    #pragma omp parallel num_threads(4)
-    {
-        int l;
-        int tid = omp_get_thread_num();
-        for(l = 1; l <= 13; l++) {
-            printf("Tâche %d: %d\n", tid, (l + tid*13));
-        }
-    }
+    num_thread = 3 ;
+    loop(num_thread) ;
     
-    return 0;
+    num_thread = 4 ;
+    loop(num_thread) ;
+
 }
